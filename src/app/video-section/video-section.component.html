@@ -1,0 +1,189 @@
+<nav class="navbar navbar-light bg-light ">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img
+        src="/docs/5.0/assets/brand/bootstrap-logo.svg"
+        alt=""
+        width="30"
+        height="24"
+        class="d-inline-block align-text-top"
+      />
+      Video chat
+    </a>
+  </div>
+</nav>
+
+<div id="app">
+  <div class="container">
+    <div class="row">
+      <div *ngIf="!conversation" class="col-sm-12 col-md-12 col-lg-6 shadow p-5 mx-auto mt-5">
+        <form
+          *ngIf="!conversation"
+          [formGroup]="conversationFormGroup"
+          (ngSubmit)="createConversation()"
+        >
+          <mat-form-field>
+            <mat-label>Conversation Name</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="Name"
+              formControlName="name"
+            /> </mat-form-field
+          >&nbsp;
+          <div class="">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="!conversationFormGroup.valid"
+              title="Get Or Create Conversation"
+            >
+              Create Conversation
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="conversation" >
+
+        <!-- <div class="alert alert-success">{{ msg }}</div> -->
+            <div class="users d-flex justify-content-center">
+              <div id="remote-container" class="fullscreen mt-2"></div>
+              <div
+                id="local-container"
+                [ngClass]="{ over: remotesCounter > 0 }"
+              ></div>
+
+
+
+
+          <video #localVideo autoplay playsinline class="m-2"></video>
+
+            </div>
+
+
+
+
+    <!-- action buttons starts here -->
+
+
+
+
+    <div class="container-fluid ">
+      <div class="row  ">
+        <div class="col-sm-12 col-md-11 mx-auto">
+         <div class="row">
+          <div class="d-lg-block d-none col-xl-2 ">
+            <div class="mt-5">
+              Time | code
+
+            </div>
+
+          </div>
+          <div class=" col-sm-12 col-md-12 col-lg-6 ">
+            <div class=" d-flex justify-content-center mt-5" >
+                <ng-container *ngIf="!recordingBtnState">
+                  <button mat-mini-fab mat-raised-button color="white" class="m-xl-2"  matTooltip="Turn off Microphone w" matTooltipPosition="above" (click)="record()">
+                    <mat-icon><span class="material-symbols-outlined">
+                      mic
+                      </span></mat-icon>
+                  </button>
+
+                </ng-container>
+                <ng-container *ngIf="recordingBtnState">
+                  <button mat-mini-fab mat-raised-button color="warn" class="m-xl-2"  matTooltip="Turn off Microphone w" matTooltipPosition="above" (click)="stopRecord()">
+                    <mat-icon><span class="material-symbols-outlined">
+                      mic
+                      </span></mat-icon>
+                  </button>
+
+                </ng-container>
+
+
+              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Turn off camera" matTooltipPosition="above">
+                <mat-icon><span class="material-symbols-outlined">
+                  videocam
+                  </span></mat-icon>
+              </button>
+              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Turn on captions (c)" matTooltipPosition="above">
+                <mat-icon><span class="material-symbols-outlined">
+                  closed_caption
+                  </span></mat-icon>
+              </button>
+              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Raise hand" matTooltipPosition="above">
+                <mat-icon><span class="material-symbols-outlined">
+                  back_hand
+                  </span></mat-icon>
+              </button>
+              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Send reaction" matTooltipPosition="above">
+                <mat-icon><span class="material-symbols-outlined">
+                  add_reaction
+                  </span></mat-icon>
+              </button>
+              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Present Now" matTooltipPosition="above">
+                <mat-icon><span class="material-symbols-outlined">
+                  present_to_all
+                  </span></mat-icon>
+              </button>
+              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="More Options" matTooltipPosition="above">
+                <mat-icon><span class="material-symbols-outlined">
+                  more_vert
+                  </span></mat-icon>
+              </button>
+              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Leave call" matTooltipPosition="above" (click)="endCall()">
+                <mat-icon><span class="material-symbols-outlined">
+                  call_end
+                  </span></mat-icon>
+              </button>
+
+
+            </div>
+
+          </div>
+
+          <div class="d-lg-block d-none col-xl-4 ">
+            <div class=" d-flex justify-content-center mt-5" >
+            <button mat-mini-fab mat-raised-button color="white" class="m-2" matTooltip="Meeting details" matTooltipPosition="above">
+              <mat-icon><span class="material-symbols-outlined">
+                info
+                </span></mat-icon>
+            </button>
+            <button mat-mini-fab mat-raised-button color="white" class="m-2" matTooltip="Show everyone" matTooltipPosition="above">
+              <mat-icon><span class="material-symbols-outlined">
+                group
+                </span></mat-icon>
+            </button>
+            <button mat-mini-fab mat-raised-button color="white" class="m-2" matTooltip="Chat with everyone" matTooltipPosition="above">
+              <mat-icon><span class="material-symbols-outlined">
+                mode_comment
+                </span></mat-icon>
+            </button>
+            <button mat-mini-fab mat-raised-button color="white" class="m-2" matTooltip="Activties" matTooltipPosition="above">
+              <mat-icon><span class="material-symbols-outlined">
+                sports_kabaddi
+                </span></mat-icon>
+            </button>
+            <button mat-mini-fab mat-raised-button color="white" class="m-2" matTooltip="Host control" matTooltipPosition="above">
+              <mat-icon><span class="material-symbols-outlined">
+                lock
+                </span></mat-icon>
+            </button>
+          </div>
+         </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+    </div>
+
+
+
+
+  </div>
+</div>
