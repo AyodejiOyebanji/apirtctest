@@ -43,7 +43,7 @@ export class VideoSectionComponent implements OnInit {
   conversation: any;
   remotesCounter = 0;
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   createConversation() {
     // let localStream: any;
@@ -118,6 +118,8 @@ export class VideoSectionComponent implements OnInit {
         console.log("Error: " + error);
     });
 
+
+
       userAgent
         .createStream({
           // constraints: {
@@ -135,7 +137,8 @@ export class VideoSectionComponent implements OnInit {
         })
         .then((stream: Stream) => {
           console.log('createStream :', stream);
-          this.msg = ' Stream Created Successfully';
+
+          this._snackBar.open('Stream Created Successfully', 'Close',  { duration: 200 });
 
           // Save local stream
           this.localStream = stream;
@@ -168,16 +171,31 @@ export class VideoSectionComponent implements OnInit {
     // for noise reduction
   }
 
-  endCall() {
-    this.conversation
-      .leave()
-      .then(() => {
-        this.conversation.destroy();
-        this._snackBar.open('Call ended', 'Close');
-      })
-      .then(() => {
-        this.router.navigate(['/']);
-      });
+  async endCall() {
+    try {
+      // Leave the conversation and stop the local stream
+      await this.conversation.leave();
+
+      // Release all resources associated with the conversation
+      await this.conversation.destroy();
+
+      // Notify the user that the call has ended successfully
+      this._snackBar.open('Call ended', 'Close', { duration: 2000 });
+
+      // Navigate the user back to the home page
+      this.router.navigate(['/']);
+      location.reload();
+
+    } catch (error) {
+      // Notify the user that an error occurred
+      this._snackBar.open(`Error ending call: ${error}`, 'Close', { duration: 2000 });
+      console.error(`Error ending call: ${error}`);
+    }
+    finally {
+      this.localStream.dispose();
+      this.localStream = null;
+      this.conversation = null;
+    }
   }
   record() {
     this.conversation
@@ -239,4 +257,8 @@ export class VideoSectionComponent implements OnInit {
     this.muteAudio = false;
     this._snackBar.open('Audio Unmuted', 'Close');
   }
+
+
+
+
 }

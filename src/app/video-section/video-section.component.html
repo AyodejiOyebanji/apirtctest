@@ -89,43 +89,6 @@
       ></video>
     </div>
 
-    <div class="fixedBtn">
-      <mat-drawer-container class="example-container" autosize>
-        <mat-drawer #drawer class="example-sidenav" mode="side">
-          <h1>In-call messages</h1>
-          <div class="messageSec">
-            <mat-form-field class="example-full-width">
-              <mat-label>Input your message</mat-label>
-              <textarea matInput placeholder="Send a message"></textarea>
-            </mat-form-field>
-
-            <button mat-raised-button color="primary">
-              <span class="material-symbols-outlined"> send </span>
-            </button>
-          </div>
-        </mat-drawer>
-
-        <div class="example-sidenav-content">
-          <button
-            type="button"
-            color="white"
-            mat-mini-fab
-            mat-raised-button
-            matTooltip="Chat with everyone"
-            matTooltipPosition="above"
-            class="btnSideNav"
-            mat-button
-            (click)="drawer.toggle()"
-          >
-            <mat-icon
-              ><span class="material-symbols-outlined">
-                mode_comment
-              </span></mat-icon
-            >
-          </button>
-        </div>
-      </mat-drawer-container>
-    </div>
 
     <!-- </div> -->
 
@@ -214,48 +177,7 @@
                     </button>
                   </ng-container>
 
-                  <button
-                    mat-mini-fab
-                    mat-raised-button
-                    color="white"
-                    class="m-xl-2"
-                    matTooltip="Turn on captions (c)"
-                    matTooltipPosition="above"
-                  >
-                    <mat-icon
-                      ><span class="material-symbols-outlined">
-                        closed_caption
-                      </span></mat-icon
-                    >
-                  </button>
-                  <button
-                    mat-mini-fab
-                    mat-raised-button
-                    color="white"
-                    class="m-xl-2"
-                    matTooltip="Raise hand"
-                    matTooltipPosition="above"
-                  >
-                    <mat-icon
-                      ><span class="material-symbols-outlined">
-                        back_hand
-                      </span></mat-icon
-                    >
-                  </button>
-                  <button
-                    mat-mini-fab
-                    mat-raised-button
-                    color="white"
-                    class="m-xl-2"
-                    matTooltip="Send reaction"
-                    matTooltipPosition="above"
-                  >
-                    <mat-icon
-                      ><span class="material-symbols-outlined">
-                        add_reaction
-                      </span></mat-icon
-                    >
-                  </button>
+
                   <button
                     mat-mini-fab
                     mat-raised-button
@@ -271,6 +193,21 @@
                       </span></mat-icon
                     >
                   </button>
+                  <button
+                  mat-mini-fab
+                  mat-raised-button
+                  color="white"
+                  class="m-2"
+                  matTooltip="Show everyone"
+                  matTooltipPosition="above"
+                  matBadge="{{ numberOfPerticipant }}"
+                >
+                  <mat-icon
+                    ><span class="material-symbols-outlined">
+                      group
+                    </span></mat-icon
+                  >
+                </button>
                   <button
                     mat-mini-fab
                     mat-raised-button
@@ -336,21 +273,7 @@
                       </span></mat-icon
                     >
                   </button>
-                  <button
-                    mat-mini-fab
-                    mat-raised-button
-                    color="white"
-                    class="m-2"
-                    matTooltip="Show everyone"
-                    matTooltipPosition="above"
-                    matBadge="{{ numberOfPerticipant }}"
-                  >
-                    <mat-icon
-                      ><span class="material-symbols-outlined">
-                        group
-                      </span></mat-icon
-                    >
-                  </button>
+
 
                   <button
                     mat-mini-fab
@@ -424,3 +347,4 @@
     </div>
   </div>
 </div>
+
