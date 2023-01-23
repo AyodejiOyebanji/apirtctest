@@ -19,6 +19,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatBadgeModule} from '@angular/material/badge';
+import { ActionButtonsComponent } from './action-buttons/action-buttons.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    VideoSectionComponent
+    VideoSectionComponent,
+    ActionButtonsComponent
   ],
   imports: [
     BrowserModule,

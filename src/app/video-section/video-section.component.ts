@@ -171,32 +171,23 @@ export class VideoSectionComponent implements OnInit {
     // for noise reduction
   }
 
-  async endCall() {
-    try {
-      // Leave the conversation and stop the local stream
-      await this.conversation.leave();
+  
 
-      // Release all resources associated with the conversation
-      await this.conversation.destroy();
 
-      // Notify the user that the call has ended successfully
-      this._snackBar.open('Call ended', 'Close', { duration: 2000 });
-
-      // Navigate the user back to the home page
-      this.router.navigate(['/']);
+  endCall(){
+    this.conversation.leave().then(()=>{
+      this.conversation.destroy();
+      this._snackBar.open("Call ended", 'Close');
+    }).then(()=>{
       location.reload();
+      this.router.navigate(['/']);
 
-    } catch (error) {
-      // Notify the user that an error occurred
-      this._snackBar.open(`Error ending call: ${error}`, 'Close', { duration: 2000 });
-      console.error(`Error ending call: ${error}`);
-    }
-    finally {
-      this.localStream.dispose();
-      this.localStream = null;
-      this.conversation = null;
-    }
-  }
+
+    })}
+
+
+
+
   record() {
     this.conversation
       .startRecording()
