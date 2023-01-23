@@ -55,7 +55,9 @@ export class VideoSectionComponent implements OnInit {
     // CREATE USER AGENT
 
     let userAgent = new UserAgent({
-      uri: 'apiKey:33f0724385fbd7087746cbca2d8daf09',
+      // uri: 'apiKey:33f0724385fbd7087746cbca2d8daf09',
+      uri: 'apiKey:43b9b76afd37e9ab4eb37c4985417750',
+
     });
 
     // REGISTER
