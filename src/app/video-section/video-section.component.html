@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light bg-light ">
+<nav class="navbar navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
       <img
@@ -16,174 +16,411 @@
 <div id="app">
   <div class="container">
     <div class="row">
-      <div *ngIf="!conversation" class="col-sm-12 col-md-12 col-lg-6 shadow p-5 mx-auto mt-5">
-        <form
-          *ngIf="!conversation"
-          [formGroup]="conversationFormGroup"
-          (ngSubmit)="createConversation()"
-        >
-          <mat-form-field>
-            <mat-label>Conversation Name</mat-label>
-            <input
-              type="text"
-              matInput
-              placeholder="Name"
-              formControlName="name"
-            /> </mat-form-field
-          >&nbsp;
-          <div class="">
-            <button
-              mat-raised-button
-              color="primary"
-              type="submit"
-              [disabled]="!conversationFormGroup.valid"
-              title="Get Or Create Conversation"
+      <div class="col-12">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-6" *ngIf="!conversation">
+            <h1 class="videoText display-1">Exceptional video meetings.</h1>
+            <p class="text-muted">
+              Lorem ipsum dolor sit amet consectetur adipisicing
+            </p>
+
+            <div
+              *ngIf="!conversation"
+              class="col-sm-12 col-md-12 col-lg-12 mx-auto mt-5"
             >
-              Create Conversation
-            </button>
+              <form
+                *ngIf="!conversation"
+                [formGroup]="conversationFormGroup"
+                (ngSubmit)="createConversation()"
+              >
+                <mat-form-field>
+                  <mat-label>Conversation Name</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    placeholder="Name"
+                    formControlName="name"
+                  /> </mat-form-field
+                >&nbsp;
+                <div class="">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="!conversationFormGroup.valid"
+                    title="Get Or Create Conversation"
+                  >
+                    Create Conversation
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
+          <div class="col-sm-12 col-md-12 col-lg-6" *ngIf="!conversation">
+            <img
+              src="https://img.freepik.com/free-vector/hand-drawn-friends-videoconferencing-scene_23-2148831007.jpg?w=1060&t=st=1674328759~exp=1674329359~hmac=057818877afaf169359514b3e37ae941405e66091f9af7bcfb814e258525cece"
+              alt=""
+              srcset=""
+              class="illusImage"
+            />
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- <div class="row">
+
+    </div> -->
   </div>
 
-  <div *ngIf="conversation" >
+  <div *ngIf="conversation" class="cons">
+    <div id="remote-container"></div>
+    <div id="local-container" [ngClass]="{ over: remotesCounter > 0 }"></div>
 
-        <!-- <div class="alert alert-success">{{ msg }}</div> -->
-            <div class="users d-flex justify-content-center">
-              <div id="remote-container" class="fullscreen mt-2"></div>
-              <div
-                id="local-container"
-                [ngClass]="{ over: remotesCounter > 0 }"
-              ></div>
+    <!-- <div class=" d-flex justify-content-center"> -->
+    <div class="localVideoDiv d-flex justify-content-end">
+      <video
+        #localVideo
+        autoplay
+        playsinline
+        width="150"
+        height="150"
+        class="fixed-bottom-right"
+      ></video>
+    </div>
 
+    <div class="fixedBtn">
+      <mat-drawer-container class="example-container" autosize>
+        <mat-drawer #drawer class="example-sidenav" mode="side">
+          <h1>In-call messages</h1>
+          <div class="messageSec">
+            <mat-form-field class="example-full-width">
+              <mat-label>Input your message</mat-label>
+              <textarea matInput placeholder="Send a message"></textarea>
+            </mat-form-field>
 
+            <button mat-raised-button color="primary">
+              <span class="material-symbols-outlined"> send </span>
+            </button>
+          </div>
+        </mat-drawer>
 
+        <div class="example-sidenav-content">
+          <button
+            type="button"
+            color="white"
+            mat-mini-fab
+            mat-raised-button
+            matTooltip="Chat with everyone"
+            matTooltipPosition="above"
+            class="btnSideNav"
+            mat-button
+            (click)="drawer.toggle()"
+          >
+            <mat-icon
+              ><span class="material-symbols-outlined">
+                mode_comment
+              </span></mat-icon
+            >
+          </button>
+        </div>
+      </mat-drawer-container>
+    </div>
 
-          <video #localVideo autoplay playsinline class="m-2"></video>
-
-            </div>
-
-
-
+    <!-- </div> -->
 
     <!-- action buttons starts here -->
 
+    <div class="nav">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-11 mx-auto">
+            <div class="row">
+              <div class="d-lg-block d-none col-xl-2">
+                <div class="mt-5">Time | code</div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="d-flex justify-content-center mt-5">
+                  <ng-container *ngIf="!recordingBtnState">
+                    <button
+                      mat-mini-fab
+                      mat-raised-button
+                      color="white"
+                      class="m-xl-2"
+                      matTooltip="Turn off Microphone "
+                      matTooltipPosition="above"
+                      (click)="record()"
+                    >
+                      <mat-icon
+                        ><span class="material-symbols-outlined">
+                          mic
+                        </span></mat-icon
+                      >
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="recordingBtnState">
+                    <button
+                      mat-mini-fab
+                      mat-raised-button
+                      color="warn"
+                      class="m-xl-2"
+                      matTooltip="Turn off Microphone w"
+                      matTooltipPosition="above"
+                      (click)="stopRecord()"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                    >
+                      <mat-icon
+                        ><span class="material-symbols-outlined">
+                          mic
+                        </span></mat-icon
+                      >
+                    </button>
+                  </ng-container>
 
+                  <!-- to mute and unmute the camera -->
+                  <ng-container *ngIf="!muteVideo">
+                    <button
+                      mat-mini-fab
+                      mat-raised-button
+                      color="white"
+                      class="m-xl-2"
+                      matTooltip="Turn off camera"
+                      matTooltipPosition="above"
+                      (click)="muteMyVideo()"
+                    >
+                      <mat-icon
+                        ><span class="material-symbols-outlined">
+                          videocam
+                        </span></mat-icon
+                      >
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="muteVideo">
+                    <button
+                      mat-mini-fab
+                      mat-raised-button
+                      color="warn"
+                      class="m-xl-2"
+                      matTooltip="Turn off camera"
+                      matTooltipPosition="above"
+                      (click)="unmuteMyVideo()"
+                    >
+                      <mat-icon
+                        ><span class="material-symbols-outlined">
+                          videocam_off
+                        </span></mat-icon
+                      >
+                    </button>
+                  </ng-container>
 
+                  <button
+                    mat-mini-fab
+                    mat-raised-button
+                    color="white"
+                    class="m-xl-2"
+                    matTooltip="Turn on captions (c)"
+                    matTooltipPosition="above"
+                  >
+                    <mat-icon
+                      ><span class="material-symbols-outlined">
+                        closed_caption
+                      </span></mat-icon
+                    >
+                  </button>
+                  <button
+                    mat-mini-fab
+                    mat-raised-button
+                    color="white"
+                    class="m-xl-2"
+                    matTooltip="Raise hand"
+                    matTooltipPosition="above"
+                  >
+                    <mat-icon
+                      ><span class="material-symbols-outlined">
+                        back_hand
+                      </span></mat-icon
+                    >
+                  </button>
+                  <button
+                    mat-mini-fab
+                    mat-raised-button
+                    color="white"
+                    class="m-xl-2"
+                    matTooltip="Send reaction"
+                    matTooltipPosition="above"
+                  >
+                    <mat-icon
+                      ><span class="material-symbols-outlined">
+                        add_reaction
+                      </span></mat-icon
+                    >
+                  </button>
+                  <button
+                    mat-mini-fab
+                    mat-raised-button
+                    color="white"
+                    class="m-xl-2"
+                    matTooltip="Present Now"
+                    matTooltipPosition="above"
+                    (click)="sharingScreen()"
+                  >
+                    <mat-icon
+                      ><span class="material-symbols-outlined">
+                        present_to_all
+                      </span></mat-icon
+                    >
+                  </button>
+                  <button
+                    mat-mini-fab
+                    mat-raised-button
+                    color="white"
+                    class="m-xl-2"
+                    matTooltip="More Options"
+                    matTooltipPosition="above"
+                    [matMenuTriggerFor]="aboveMenu"
+                  >
+                    <mat-icon
+                      ><span class="material-symbols-outlined">
+                        more_vert
+                      </span></mat-icon
+                    >
+                    <mat-menu #aboveMenu="matMenu" yPosition="above">
+                      <ng-container *ngIf="!muteAudio">
+                        <button mat-menu-item (click)="muteMyAudio()">
+                          Mute
+                        </button>
+                      </ng-container>
+                      <ng-container>
+                        <button
+                          mat-menu-item
+                          *ngIf="muteAudio"
+                          (click)="unmuteMyAudio()"
+                        >
+                          Unmute
+                        </button>
+                      </ng-container>
+                    </mat-menu>
+                  </button>
+                  <button
+                    mat-mini-fab
+                    mat-raised-button
+                    color="warn"
+                    class="m-xl-2"
+                    matTooltip="Leave call"
+                    matTooltipPosition="above"
+                    (click)="endCall()"
+                  >
+                    <mat-icon
+                      ><span class="material-symbols-outlined">
+                        call_end
+                      </span></mat-icon
+                    >
+                  </button>
+                </div>
+              </div>
 
-    <div class="container-fluid ">
-      <div class="row  ">
-        <div class="col-sm-12 col-md-11 mx-auto">
-         <div class="row">
-          <div class="d-lg-block d-none col-xl-2 ">
-            <div class="mt-5">
-              Time | code
-
-            </div>
-
-          </div>
-          <div class=" col-sm-12 col-md-12 col-lg-6 ">
-            <div class=" d-flex justify-content-center mt-5" >
-                <ng-container *ngIf="!recordingBtnState">
-                  <button mat-mini-fab mat-raised-button color="white" class="m-xl-2"  matTooltip="Turn off Microphone w" matTooltipPosition="above" (click)="record()">
-                    <mat-icon><span class="material-symbols-outlined">
-                      mic
-                      </span></mat-icon>
+              <div class="d-lg-block d-none col-xl-4">
+                <div class="d-flex justify-content-end mt-5">
+                  <button
+                    mat-mini-fab
+                    mat-raised-button
+                    color="white"
+                    class="m-2"
+                    matTooltip="Meeting details"
+                    matTooltipPosition="above"
+                  >
+                    <mat-icon
+                      ><span class="material-symbols-outlined">
+                        info
+                      </span></mat-icon
+                    >
+                  </button>
+                  <button
+                    mat-mini-fab
+                    mat-raised-button
+                    color="white"
+                    class="m-2"
+                    matTooltip="Show everyone"
+                    matTooltipPosition="above"
+                    matBadge="{{ numberOfPerticipant }}"
+                  >
+                    <mat-icon
+                      ><span class="material-symbols-outlined">
+                        group
+                      </span></mat-icon
+                    >
                   </button>
 
-                </ng-container>
-                <ng-container *ngIf="recordingBtnState">
-                  <button mat-mini-fab mat-raised-button color="warn" class="m-xl-2"  matTooltip="Turn off Microphone w" matTooltipPosition="above" (click)="stopRecord()">
-                    <mat-icon><span class="material-symbols-outlined">
-                      mic
-                      </span></mat-icon>
+                  <button
+                    mat-mini-fab
+                    mat-raised-button
+                    color="white"
+                    class="m-2"
+                    matTooltip="Activties"
+                    matTooltipPosition="above"
+                  >
+                    <mat-icon
+                      ><span class="material-symbols-outlined">
+                        sports_kabaddi
+                      </span></mat-icon
+                    >
                   </button>
-
-                </ng-container>
-
-
-              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Turn off camera" matTooltipPosition="above">
-                <mat-icon><span class="material-symbols-outlined">
-                  videocam
-                  </span></mat-icon>
-              </button>
-              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Turn on captions (c)" matTooltipPosition="above">
-                <mat-icon><span class="material-symbols-outlined">
-                  closed_caption
-                  </span></mat-icon>
-              </button>
-              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Raise hand" matTooltipPosition="above">
-                <mat-icon><span class="material-symbols-outlined">
-                  back_hand
-                  </span></mat-icon>
-              </button>
-              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Send reaction" matTooltipPosition="above">
-                <mat-icon><span class="material-symbols-outlined">
-                  add_reaction
-                  </span></mat-icon>
-              </button>
-              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Present Now" matTooltipPosition="above">
-                <mat-icon><span class="material-symbols-outlined">
-                  present_to_all
-                  </span></mat-icon>
-              </button>
-              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="More Options" matTooltipPosition="above">
-                <mat-icon><span class="material-symbols-outlined">
-                  more_vert
-                  </span></mat-icon>
-              </button>
-              <button mat-mini-fab mat-raised-button color="white" class="m-xl-2" matTooltip="Leave call" matTooltipPosition="above" (click)="endCall()">
-                <mat-icon><span class="material-symbols-outlined">
-                  call_end
-                  </span></mat-icon>
-              </button>
-
-
+                  <button
+                    mat-mini-fab
+                    mat-raised-button
+                    color="white"
+                    class="m-2"
+                    matTooltip="Host control"
+                    matTooltipPosition="above"
+                  >
+                    <mat-icon
+                      ><span class="material-symbols-outlined">
+                        lock
+                      </span></mat-icon
+                    >
+                  </button>
+                </div>
+              </div>
             </div>
-
           </div>
-
-          <div class="d-lg-block d-none col-xl-4 ">
-            <div class=" d-flex justify-content-center mt-5" >
-            <button mat-mini-fab mat-raised-button color="white" class="m-2" matTooltip="Meeting details" matTooltipPosition="above">
-              <mat-icon><span class="material-symbols-outlined">
-                info
-                </span></mat-icon>
-            </button>
-            <button mat-mini-fab mat-raised-button color="white" class="m-2" matTooltip="Show everyone" matTooltipPosition="above">
-              <mat-icon><span class="material-symbols-outlined">
-                group
-                </span></mat-icon>
-            </button>
-            <button mat-mini-fab mat-raised-button color="white" class="m-2" matTooltip="Chat with everyone" matTooltipPosition="above">
-              <mat-icon><span class="material-symbols-outlined">
-                mode_comment
-                </span></mat-icon>
-            </button>
-            <button mat-mini-fab mat-raised-button color="white" class="m-2" matTooltip="Activties" matTooltipPosition="above">
-              <mat-icon><span class="material-symbols-outlined">
-                sports_kabaddi
-                </span></mat-icon>
-            </button>
-            <button mat-mini-fab mat-raised-button color="white" class="m-2" matTooltip="Host control" matTooltipPosition="above">
-              <mat-icon><span class="material-symbols-outlined">
-                lock
-                </span></mat-icon>
-            </button>
-          </div>
-         </div>
-
         </div>
-
       </div>
-
-
     </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Your Recording has been saved. Click
+        <span *ngIf="!recordedUrl">
+          <mat-spinner></mat-spinner>
+        </span>
+        <a href="{{ recordedUrl }}" target="_blank">{{ recordedUrl }} </a>
+        to download your video
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
     </div>
-
-
-
-
   </div>
 </div>

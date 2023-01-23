@@ -9,6 +9,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Conversation, UserAgent, Session, Stream } from '@apirtc/apirtc';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {MatDialog} from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-video-section',
@@ -17,11 +19,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class VideoSectionComponent implements OnInit {
     public msg="";
+    public showFiller = false;
     public recordingBtnState=false;
+    public recordedUrl:any;
+    public localStream:any;
+    public muteVideo=false;
+    public muteAudio=false;
+    public numberOfPerticipant:any
 
 
 
-  constructor(private fb: FormBuilder, public router:Router, private _snackBar: MatSnackBar) {}
+
+  constructor(private fb: FormBuilder, public router:Router, private _snackBar: MatSnackBar,public dialog: MatDialog,  ) {
+
+
+  }
   @ViewChild('localVideo') videoRef: any;
 
   conversationFormGroup = this.fb.group({
@@ -33,10 +45,12 @@ export class VideoSectionComponent implements OnInit {
   conversation: any;
   remotesCounter = 0;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   createConversation() {
-    let localStream: any;
+    // let localStream: any;
 
     // CREATE USER AGENT
 
@@ -55,7 +69,8 @@ export class VideoSectionComponent implements OnInit {
 
       // ADD EVENT LISTENER : WHEN NEW STREAM IS AVAILABLE IN CONVERSATION
       conversation.on('streamListChanged', (streamInfo: any) => {
-        console.log('streamListChanged :', streamInfo);
+        this.numberOfPerticipant= streamInfo.contact.groups.length
+
         if (streamInfo.listEventType === 'added') {
           if (streamInfo.isRemote === true) {
             conversation
@@ -92,10 +107,17 @@ export class VideoSectionComponent implements OnInit {
 
       userAgent
         .createStream({
-          constraints: {
-            audio: true,
-            video: true,
-          },
+          // constraints: {
+          //   audio: true,
+          //   video: true,
+          // },
+
+          constraints:{
+            audio:{
+              noiseSuppression:true
+            },
+            video:true,
+          }
         })
         .then((stream: Stream) => {
           console.log('createStream :', stream);
@@ -103,10 +125,10 @@ export class VideoSectionComponent implements OnInit {
 
 
           // Save local stream
-          localStream = stream;
+          this.localStream = stream;
 
           // Display stream
-          localStream.attachToElement(this.videoRef.nativeElement);
+          this.localStream.attachToElement(this.videoRef.nativeElement);
 
           // JOIN CONVERSATION
           conversation
@@ -114,7 +136,7 @@ export class VideoSectionComponent implements OnInit {
             .then(() => {
               //  PUBLISH LOCAL STREAM
               conversation
-                .publish(localStream)
+                .publish(this.localStream)
                 .then((stream: Stream) => {
                   console.log('published', stream);
                 })
@@ -131,6 +153,9 @@ export class VideoSectionComponent implements OnInit {
           console.error('create stream error', err);
         });
     });
+    // for noise reduction
+
+
   }
 
   endCall(){
@@ -138,7 +163,7 @@ export class VideoSectionComponent implements OnInit {
       this.conversation.destroy();
       this._snackBar.open("Call ended", 'Close');
     }).then(()=>{
-      location.reload();
+      this.router.navigate(['/']);
 
 
     })
@@ -158,9 +183,8 @@ export class VideoSectionComponent implements OnInit {
     this.conversation.stopRecording().then((recordingInfo:any)=>{
       this.recordingBtnState=false
       this._snackBar.open("Recording stopped", 'Close');
-      console.log("stop recording", recordingInfo);
       this.conversation.on('recordingAvailable', (recordingInfo:any)=>{
-        console.log("on:recordingAvailable", recordingInfo.mediaURL);
+        this.recordedUrl=recordingInfo.mediaURL
       })
 
     }).catch((error:any)=>{
@@ -168,4 +192,41 @@ export class VideoSectionComponent implements OnInit {
 
     })
   }
+  sharingScreen(){
+    Stream.createScreensharingStream().then(localStream=>{
+      this.conversation.publish(localStream).then((publishedStream:any)=>{
+        console.log(publishedStream);
+
+
+
+      }).catch((error:any)=>{
+
+      })
+
+    }).catch(error=>{
+      console.log(error);
+
+    })
+  }
+  muteMyVideo(){
+     this.localStream.muteVideo();
+     this.muteVideo=true;
+     this._snackBar.open("Video Muted", 'Close');
+   }
+   unmuteMyVideo(){
+    this.localStream.unmuteVideo();
+    this.muteVideo=false;
+    this._snackBar.open("Video Unmuted", 'Close');
+   }
+   muteMyAudio(){
+    this.localStream.muteAudio()
+    this.muteAudio=true
+    this._snackBar.open("Audio Muted", 'Close');
+   }
+   unmuteMyAudio(){
+    this.localStream.unmuteAudio()
+    this.muteAudio=false;
+    this._snackBar.open("Audio Unmuted", 'Close');
+   }
+
 }
