@@ -17,7 +17,6 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./video-section.component.css'],
 })
 export class VideoSectionComponent implements OnInit {
-  public msg = '';
   public showFiller = false;
   public recordingBtnState = false;
   public recordedUrl: any;
@@ -43,7 +42,7 @@ export class VideoSectionComponent implements OnInit {
   conversation: any;
   remotesCounter = 0;
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   createConversation() {
     // let localStream: any;
@@ -102,31 +101,27 @@ export class VideoSectionComponent implements OnInit {
 
       // 5/ CREATE LOCAL STREAM
 
-      navigator.mediaDevices.getUserMedia({
-        audio: {
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: {
             echoCancellation: true,
             noiseSuppression: true,
-        },
-        video: true
-    }).then(function(stream) {
-        // Use the stream as desired
-        var audioTracks = stream.getAudioTracks();
-        var videoTracks = stream.getVideoTracks();
-        console.log("using audio device: " + audioTracks[0].label);
-        console.log("using video device: " + videoTracks[0].label);
-    }).catch(function(error) {
-        console.log("Error: " + error);
-    });
-
-
+          },
+          video: true,
+        })
+        .then(function (stream) {
+          // Use the stream as desired
+          var audioTracks = stream.getAudioTracks();
+          var videoTracks = stream.getVideoTracks();
+          console.log('using audio device: ' + audioTracks[0].label);
+          console.log('using video device: ' + videoTracks[0].label);
+        })
+        .catch(function (error) {
+          console.log('Error: ' + error);
+        });
 
       userAgent
         .createStream({
-          // constraints: {
-          //   audio: true,
-          //   video: true,
-          // },
-
           constraints: {
             audio: {
               noiseSuppression: true,
@@ -138,7 +133,9 @@ export class VideoSectionComponent implements OnInit {
         .then((stream: Stream) => {
           console.log('createStream :', stream);
 
-          this._snackBar.open('Stream Created Successfully', 'Close',  { duration: 200 });
+          this._snackBar.open('Stream Created Successfully', 'Close', {
+            duration: 200,
+          });
 
           // Save local stream
           this.localStream = stream;
@@ -168,26 +165,21 @@ export class VideoSectionComponent implements OnInit {
           console.error('create stream error', err);
         });
     });
-    // for noise reduction
   }
-
-  
-
-
-  endCall(){
-    this.conversation.leave().then(()=>{
-      this.conversation.destroy();
-      this._snackBar.open("Call ended", 'Close');
-    }).then(()=>{
-      location.reload();
-      this.router.navigate(['/']);
-
-
-    })}
-
-
-
-
+  // to end call
+  endCall() {
+    this.conversation
+      .leave()
+      .then(() => {
+        this.conversation.destroy();
+        this._snackBar.open('Call ended', 'Close');
+      })
+      .then(() => {
+        location.reload();
+        this.router.navigate(['/']);
+      });
+  }
+  // to record screen
   record() {
     this.conversation
       .startRecording()
@@ -200,6 +192,8 @@ export class VideoSectionComponent implements OnInit {
         console.log(error);
       });
   }
+
+  // to stop
   stopRecord() {
     this.conversation
       .stopRecording()
@@ -214,6 +208,8 @@ export class VideoSectionComponent implements OnInit {
         console.log('stop recording', error);
       });
   }
+
+  // to start sharing the screen
   sharingScreen() {
     Stream.createScreensharingStream()
       .then((localStream) => {
@@ -248,8 +244,4 @@ export class VideoSectionComponent implements OnInit {
     this.muteAudio = false;
     this._snackBar.open('Audio Unmuted', 'Close');
   }
-
-
-
-
 }

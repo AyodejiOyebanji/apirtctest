@@ -1,19 +1,11 @@
-/* h4,
-h5,
-h6,
-.h4,
-.h5,
-.h6 {
-    font-weight: 500 !important;
-} */
 /*** Button ***/
 .btn {
   font-weight: 500;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .btn.btn-primary {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .btn-square {
@@ -43,7 +35,7 @@ h6,
 /*** Navbar ***/
 .navbar.sticky-top {
   top: -100px;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .navbar .navbar-brand {
@@ -73,41 +65,40 @@ h6,
 }
 
 @media (max-width: 991.98px) {
-  .navbar .navbar-nav .nav-link  {
-      margin-right: 0;
-      padding: 10px 0;
+  .navbar .navbar-nav .nav-link {
+    margin-right: 0;
+    padding: 10px 0;
   }
 
   .navbar .navbar-nav {
-      border-top: 1px solid #EEEEEE;
+    border-top: 1px solid #eeeeee;
   }
 }
 
 @media (min-width: 992px) {
   .navbar .nav-item .dropdown-menu {
-      display: block;
-      border: none;
-      margin-top: 0;
-      top: 150%;
-      opacity: 0;
-      visibility: hidden;
-      transition: .5s;
+    display: block;
+    border: none;
+    margin-top: 0;
+    top: 150%;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.5s;
   }
 
   .navbar .nav-item:hover .dropdown-menu {
-      top: 100%;
-      visibility: visible;
-      transition: .5s;
-      opacity: 1;
+    top: 100%;
+    visibility: visible;
+    transition: 0.5s;
+    opacity: 1;
   }
 }
 
 .navbar .btn:hover {
-  color: #FFFFFF !important;
+  color: #ffffff !important;
   background: var(--primary) !important;
 }
 
-.getStartedBtn:hover{
-
-    color: black !important;
+.getStartedBtn:hover {
+  color: black !important;
 }
