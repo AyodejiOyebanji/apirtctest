@@ -5,8 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+
 import { VideoSectionComponent } from './video-section/video-section.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button'
@@ -19,16 +18,18 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatBadgeModule} from '@angular/material/badge';
-import { ActionButtonsComponent } from './action-buttons/action-buttons.component';
+
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent,
-    RegisterComponent,
+
     VideoSectionComponent,
-    ActionButtonsComponent
+
+
   ],
   imports: [
     BrowserModule,
@@ -45,7 +46,8 @@ import { ActionButtonsComponent } from './action-buttons/action-buttons.componen
     MatProgressSpinnerModule,
     MatMenuModule,
     MatSidenavModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatButtonToggleModule
 
   ],
   providers: [],
